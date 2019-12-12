@@ -1,1 +1,2 @@
-# Deloitte
+# Deanta
+Irish translation of "Done".
