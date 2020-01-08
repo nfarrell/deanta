@@ -1,0 +1,126 @@
+﻿@using Deanta.Cosmos.ServiceLayer.TodosCommon
+@model Deanta.Cosmos.ServiceLayer.TodosNoSql.NoSqlTodoListCombinedDto
+@{
+    ViewData["Title"] = "(NoSql)";
+}
+
+<p><span class="text-primary h2">NoSQL Todos&nbsp;</span>- using EF Core access Cosmos DB holding </p>
+
+<form id="sort-filter-form" class="form-horizontal">
+    <div class="form-group">
+        <div class="col-sm-3">
+            <label class="control-label">Sort By</label>
+            <select asp-for="SortFilterPageData.OrderByOptions" name="OrderByOptions"
+                    asp-items="Html.GetEnumSelectList<OrderByOptions>()"
+                    class="form-control sort-filter-width"
+                    onchange="TodoList.sendForm(this)"></select>
+        </div>
+
+        <div class="col-sm-2">
+            <label class="control-label">Filter Type</label>
+            <select asp-for="SortFilterPageData.FilterBy" name="FilterBy"
+                    asp-items="Html.GetEnumSelectList<TodosFilterBy>()"
+                    class="form-control sort-filter-width"
+                    onchange="TodoList.filterByHasChanged(this)"></select>
+        </div>
+
+        <div class="col-sm-2 dim-filter-value" id="filter-value-group">
+            <label class="control-label">Filter By</label>
+            <select asp-for="SortFilterPageData.FilterValue" name="FilterValue"
+                    id="filter-value-dropdown"
+                    class="form-control sort-filter-width"
+                    disabled
+                    onchange="TodoList.sendForm(this)">
+                <option>Select filter type...</option>
+            </select>
+        </div>
+
+        <div class="col-sm-3">
+            <label class="control-label">Paging</label>
+            <div>
+                <button type="button" onclick="stepPageNum(this,-1)" class="btn btn-default" @(Model.SortFilterPageData.PrevPageValid ? "" : "disabled")>Prev</button>
+                <button type="button" class="btn btn-default">Page @Model.SortFilterPageData.PageNum</button>
+                <button type="button" onclick="stepPageNum(this,+1)" class="btn btn-default" @(Model.SortFilterPageData.NextPageValid ? "" : "disabled")>Next</button>
+            </div>
+        </div>
+
+        <div class="col-sm-1">
+            <label class="control-label">Page size</label>
+            <select asp-for="SortFilterPageData.PageSize" name="PageSize"
+                    asp-items="Model.SortFilterPageData.PageSizes.Select(x => new SelectListItem {Text = x.ToString(), Value = x.ToString()})"
+                    class="form-control page-control-width"
+                    onchange="TodoList.sendForm(this)"></select>
+        </div>
+
+        <input id="PageNum" name="PageNum" type="hidden" value=@Model.SortFilterPageData.PageNum>
+        <input id="PrevCheckState" name="PrevCheckState" type="hidden" value=@Model.SortFilterPageData.PrevCheckState>
+        @*@Html.Hidden("PrevCheckState", @Model.SortFilterPageData.PrevCheckState) -- this didn't work for some reason*@
+    </div>
+</form>
+<br />
+
+<table class="table">
+    @if (Model.TodosList.Count <= 0)
+    {
+        if (Model.SortFilterPageData.PageNum == 1)
+        {
+            <p>No todos in the database.</p>
+        }
+        else
+        {
+            <p>You are at the end of the todos data.</p>
+        }
+
+    }
+    else
+    {
+        @foreach (var item in Model.TodosList)
+        {
+            <tr>
+                <td>
+                    <h3>@Html.DisplayFor(modelItem => item.Title)</h3>
+                    <div>
+                        <small>by</small>&nbsp;@Html.DisplayFor(m => item.Owner)
+                    </div>
+                </td>
+                <td class="vert-align">
+
+                    <div class="dropdown">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            Admin
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <li>@Html.ActionLink("Change Pub Date", "ChangePubDate", "Sql", new { id = item.TodoId })</li>
+                            <li>@Html.ActionLink("Add Comment", "AddTodoComment", "Sql", new { id = item.TodoId })</li>
+                        </ul>
+                    </div>
+
+                </td>
+            </tr>
+        }
+    }
+</table>
+
+@section Scripts{
+
+    <script type='text/javascript'>
+        document.addEventListener("DOMContentLoaded",
+            function(event) {
+                TodoList.initialise('@Model.SortFilterPageData.FilterBy', '@Model.SortFilterPageData.FilterValue',
+                    '@Url.Action("GetFilterSearchContent")');
+            });
+
+        function stepPageNum(inputElem, delta) {
+            var currentPageNum = @Model.SortFilterPageData.PageNum;
+            $('#PageNum').val(currentPageNum + parseInt(delta));
+            var form = $(inputElem).parents('form');
+            form.submit();
+            //Disable the items to stop second request before first request has finished (has to come after form submit for some reason)
+            //... otherwise you get the EF Core error
+            //A second operation started on this context before a previous operation completed. Any instance members are not guaranteed to be thread safe.
+            $('.form-control').prop('disabled', true);
+        }
+
+    </script>
+}

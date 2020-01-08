@@ -1,0 +1,48 @@
+﻿@model Deanta.Cosmos.ServiceLayer.TodosSqlWithEvents.Dtos.AddCommentEventsDto
+
+
+<h2>Add a todo comment</h2>
+
+<div class="form-horizontal">
+    <form asp-action="AddTodoComment" method="post">
+        <!-- Input and Submit elements -->
+        <input name="TodoId" type="hidden" value="@Model.TodoId" />
+        
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label">Todo Title</label>
+            </div>
+            <div class="col-sm-10">
+                @ViewData["TodoTitle"]
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label">YourName</label>
+            </div>
+            <input asp-for="CommentOwner" class="form-control col-sm-10" />
+        </div>
+        
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label">Grade (0 to 5)</label>
+            </div>
+            <input asp-for="NumStars" min="0" max="5" class="form-control col-sm-10" />
+        </div>
+        
+        <div class="form-group">
+            <div class="col-sm-2">
+                <label class="control-label">Your comment</label>
+            </div>
+            <textarea  asp-for="Comment" class="form-control col-sm-10"></textarea>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit">Update</button>
+            </div>
+        </div>
+
+    </form>
+</div>

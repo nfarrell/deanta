@@ -1,0 +1,47 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h2>Welcome to this database performance app.</h2>
+
+<p class="h4">
+    This application show different ways to performance tune a SQL database.
+</p>
+<p>
+    This example application is a simple site which lists todos.
+</p>
+<p>
+    The todos and the owners were scraped from the internet to give normal looking todo's with an owner as an integer.
+    When you run the application the first time it will fill the database(s) with about 55 todos so that you can see it working.
+    <i>NOTE: There is a Admin->Generate feature which can generate a large number of todos for performance tests.</i>
+</p>
+<p>
+    There are three types of database access code that it contains:
+</p>
+<ul>
+    <li>
+        <strong>Todos (SQL):</strong>
+        <br />
+    </li>
+    <li>
+        <strong>Todos, event updates:</strong>
+        <br />
+    </li>
+    <li>
+        @if (Configuration["StartupMode"] != StartupModes.SqlAndCosmosDb.ToString())
+        {
+            <span><strong>Todos (NoSQL):</strong></span>
+            <span class="h3 text-danger">This is currently disabled</span>
+            <span><i>- Edit the appsettings file to rename this.</i></span>
+        }
+        else
+        {
+            <span><strong>Todos (NoSQL):</strong> This uses a two-database CQRS design, with NoSQL (Cosmos Db) read-side database to provide superior performance and scalability.</span>
+        }
+        <br />
+    </li>
+</ul>
+
