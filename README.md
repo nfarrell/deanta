@@ -4,9 +4,9 @@ Irish translation of "Done".
 ### Implementations
 Roughly implemented in:
 
-**Simple web app:** - https://github.com/nfarrell/deanta/tree/master
-**ES version vaguely implemented in CosmosDB with SQL backing:** - https://github.com/nfarrell/deanta/tree/cosmos-example
-**CQRS (Query Command segregation):** - https://github.com/nfarrell/deanta/tree/microservices-example
+**Simple web app:** - https://github.com/nfarrell/deanta/tree/master  
+**ES version vaguely implemented in CosmosDB with SQL backing:** - https://github.com/nfarrell/deanta/tree/cosmos-example  
+**CQRS (Query Command segregation):** - https://github.com/nfarrell/deanta/tree/microservices-example  
 
 
 The simple web app, which actually utilises the SSO (single sign-on) built on IdentityServer4 and Skoruba is built and deployed to here: https://deanta.azurewebsites.net/Identity/Account/Login
