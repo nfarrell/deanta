@@ -52,6 +52,35 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @RenderSection("Scripts", required: false)
+
+    <script type="text/javascript">
+
+        var Countly = Countly || {};
+        Countly.q = Countly.q || [];
+
+        Countly.app_key = '6488cf3ed5afe7c1b09f0741e491e70006af1418';
+        Countly.url = 'https://stats.boafy.com/';
+
+        Countly.q.push(['track_sessions']);
+        Countly.q.push(['track_pageview']);
+        Countly.q.push(['track_clicks']);
+        Countly.q.push(['track_scrolls']);
+        Countly.q.push(['track_errors']);
+        Countly.q.push(['enable_feedback', { 'widgets': ['5c9bae18fe5dc5665e0a4da5'] }]);
+
+        (function () {
+            var cly = document.createElement('script'); cly.type = 'text/javascript';
+            cly.async = true;
+            //enter url of script here
+            cly.src = 'https://cdnjs.cloudflare.com/ajax/libs/countly-sdk-web/18.8.2/countly.min.js';
+            cly.onload = function () { Countly.init() };
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(cly, s);
+        })();
+    </script>
+
+
     <noscript><img src='https://stats.boafy.com/pixel.png?app_key=6488cf3ed5afe7c1b09f0741e491e70006af1418&begin_session=1' /></noscript>
+
+
 </body>
 </html>
