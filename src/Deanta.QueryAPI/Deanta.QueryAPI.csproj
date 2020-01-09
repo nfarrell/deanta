@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.2.0" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="8.6.0" />
+    <PackageReference Include="AutoFixture" Version="4.11.0" />
+    <PackageReference Include="Moq" Version="4.12.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="4.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
+    <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="2.0.96" />
+    
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Deanta.UnitTests.Common\Deanta.UnitTests.Common.csproj" />
+    <ProjectReference Include="..\Deanta.Models\Deanta.Models.csproj" />
+  </ItemGroup>
+
+</Project>
