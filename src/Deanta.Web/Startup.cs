@@ -120,10 +120,13 @@ namespace Deanta.Web
             {
                 app.UseExceptionHandler("/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
+                // removing HSTS because Cloudflare will handle it
+                //app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            // Remove forced https redirection because I'm enabling Flexible SSL redirection in Cloudflare which will enforce it for me
+            //app.UseHttpsRedirection();
+            
             app.UseStaticFiles();
 
             app.UseRouting();
